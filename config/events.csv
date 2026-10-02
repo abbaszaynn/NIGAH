@@ -1,0 +1,4 @@
+name,date,type,lake,role,source_url,verified,note
+Hassanabad GLOF (Shisper),2022-05-07,glof,shisper,test,,false,Date from first back-test script; add a news/NDMA source link
+Badswat GLOF,2018-07-17,glof,badswat,test,,false,Date to verify; AOI not drawn yet
+Attabad landslide dam,2010-01-04,landslide_dam,attabad,partial,,false,Predates Sentinel-2 and AlphaEarth: Landsat-only partial analysis

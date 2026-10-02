@@ -1,0 +1,25 @@
+.venv/
+__pycache__/
+*.pyc
+.env
+.streamlit/secrets.toml
+
+# outputs are gitignored except final figures and small result tables the dashboard reads
+outputs/*
+!outputs/.gitkeep
+!outputs/*_area.csv
+!outputs/*_alerts.csv
+!outputs/alert_log.csv
+!outputs/backtest_report.md
+!outputs/backtest_summary.csv
+!outputs/backtest_*.png
+!outputs/*_area.png
+!outputs/tuned_thresholds.json
+!outputs/landslide_auc.csv
+!outputs/landslide_shap.png
+!outputs/susceptibility.png
+!outputs/susceptibility_bounds.json
+!outputs/reports_triaged.csv
+!outputs/nlp_f1.csv
+!outputs/nlp_confusion.png
+!outputs/nlp_examples.md

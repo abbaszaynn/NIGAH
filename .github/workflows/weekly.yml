@@ -1,0 +1,34 @@
+name: weekly-lake-check
+
+on:
+  schedule:
+    - cron: "0 3 * * 1"   # Mondays 03:00 UTC (08:00 PKT)
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install
+        run: pip install earthengine-api pandas numpy matplotlib requests
+      - name: Lake check
+        env:
+          NIGAH_GEE_PROJECT: ${{ secrets.NIGAH_GEE_PROJECT }}
+          NIGAH_GEE_SERVICE_ACCOUNT_KEY: ${{ secrets.NIGAH_GEE_SERVICE_ACCOUNT_KEY }}
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+        run: python -m src.alerts.check
+      - name: Commit refreshed outputs
+        run: |
+          git config user.name "nigah-bot"
+          git config user.email "nigah-bot@users.noreply.github.com"
+          git add -f outputs/*_area.csv outputs/*_alerts.csv outputs/alert_log.csv || true
+          git diff --cached --quiet || git commit -m "Weekly lake check $(date -u +%F)"
+          git push

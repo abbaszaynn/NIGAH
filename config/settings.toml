@@ -1,0 +1,69 @@
+# NIGAH settings. Every script reads from here; nothing is hard-coded twice.
+
+[gee]
+# GEE Cloud project id. Override with --project or the NIGAH_GEE_PROJECT env var.
+project = "vocal-oarlock-472219-q6"
+
+[lakes]
+start = "2016-04-01"        # Sentinel-2 L1C over GB is usable from 2016
+end = "2025-10-31"
+months = [4, 10]            # Apr-Oct; lakes are frozen or snow-covered in winter
+scale_m = 20                # B11 is 20 m
+
+[lakes.s2]
+mndwi_threshold = 0.1       # water if MNDWI(B3, B11) > this
+clear_threshold = 0.6       # Cloud Score+ cs_cdf; higher = clearer
+min_clear_frac = 0.8        # keep scenes where >= 80% of the AOI is usable
+max_slope_deg = 10          # water cannot sit on steep slopes
+
+[lakes.s1]
+enabled = true
+vv_threshold_db = -18.0     # water if VV backscatter below this
+speckle_radius_m = 30       # focal median before thresholding
+
+[alerts]
+baseline = "60D"            # rolling baseline window (pandas offset)
+min_baseline_obs = 3        # fewer prior observations -> no z-score
+growth_window_days = 15     # growth rate is scaled to this window
+max_gap_days = 45           # gaps longer than this give no growth rate
+
+# Tiers. A tier fires if EITHER rule passes its threshold.
+# These are starting values; src/lakes/backtest.py --tune re-fits
+# watch/warning on the tuning period only and writes outputs/tuned_thresholds.json.
+[alerts.watch]
+z = 2.0
+growth = 0.15
+[alerts.warning]
+z = 3.0
+growth = 0.25
+[alerts.alert]
+# alert = warning-level z AND warning-level growth on the same observation,
+# or warning on two consecutive observations
+consecutive_warnings = 2
+
+[backtest]
+tune_start = "2019-01-01"
+tune_end = "2021-12-31"     # tune only on 2019-2021 seasons
+lead_window_days = 90       # a warning within this many days before an event counts as a hit
+max_false_per_season = 1.0  # tuning constraint
+z_grid = [2.0, 2.5, 3.0, 3.5, 4.0, 5.0]
+growth_grid = [0.10, 0.15, 0.20, 0.25, 0.30, 0.40, 0.50]
+
+[landslide]
+aoi = "kkh_hunza_attabad"
+block_size_km = 5           # spatial CV block edge
+n_folds = 5
+negative_ratio = 2          # negatives per positive (1:1 to 1:3)
+alphaearth_year = 2022
+seed = 42
+
+[nlp]
+model = "xlm-roberta-base"
+labels = ["rockfall", "road_block", "flood_glof", "irrelevant"]
+feeds = [
+  "https://pamirtimes.net/feed/",
+  "https://www.dawn.com/feeds/home",
+]
+keywords = ["Gilgit", "Hunza", "Nagar", "Skardu", "Ghizer", "Shimshal", "Karakoram Highway", "KKH",
+            "Attabad", "Hassanabad", "Shisper", "Ishkoman", "Badswat", "glacier", "GLOF", "landslide",
+            "گلگت", "ہنزہ", "لینڈ سلائیڈنگ", "سیلاب", "شاہراہ قراقرم"]

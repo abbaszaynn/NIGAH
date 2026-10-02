@@ -1,0 +1,75 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "shisper",
+        "name": "Shisper ice-dammed lake",
+        "kind": "lake",
+        "valley": "Hassanabad, Hunza",
+        "downstream": ["Hassanabad", "Aliabad"],
+        "verified": false,
+        "note": "Approximate box from the first back-test script. Verify on a summer 2022 S2 image in the GEE Code Editor and redraw."
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[[74.555, 36.385], [74.600, 36.385], [74.600, 36.415], [74.555, 36.415], [74.555, 36.385]]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "khurdopin",
+        "name": "Khurdopin surge lake",
+        "kind": "lake",
+        "valley": "Shimshal, Hunza",
+        "verified": false,
+        "note": "Not drawn yet. Draw in the GEE Code Editor and paste the polygon here."
+      },
+      "geometry": null
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "badswat",
+        "name": "Badswat lake",
+        "kind": "lake",
+        "valley": "Ishkoman, Ghizer",
+        "verified": false,
+        "note": "Not drawn yet. Draw in the GEE Code Editor and paste the polygon here."
+      },
+      "geometry": null
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "attabad",
+        "name": "Attabad lake",
+        "kind": "lake",
+        "valley": "Gojal, Hunza",
+        "verified": false,
+        "note": "Approximate box. Landsat-only history for 2010 (predates Sentinel-2 and AlphaEarth)."
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[[74.800, 36.300], [74.900, 36.300], [74.900, 36.360], [74.800, 36.360], [74.800, 36.300]]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "kkh_hunza_attabad",
+        "name": "KKH Hunza-Attabad segment",
+        "kind": "corridor",
+        "valley": "Hunza",
+        "verified": false,
+        "note": "Approximate corridor box. Replace with a buffered KKH centreline drawn in the GEE Code Editor."
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[[74.600, 36.270], [74.880, 36.270], [74.880, 36.360], [74.600, 36.360], [74.600, 36.270]]]
+      }
+    }
+  ]
+}

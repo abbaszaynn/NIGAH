@@ -1,0 +1,6 @@
+# Slim deps for Streamlit Community Cloud (it reads this file next to the entrypoint first).
+streamlit>=1.50
+pandas>=2.1
+numpy
+altair>=5.5
+pydeck>=0.9
