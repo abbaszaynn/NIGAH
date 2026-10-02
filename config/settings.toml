@@ -25,6 +25,7 @@ speckle_radius_m = 30       # focal median before thresholding
 baseline = "60D"            # rolling baseline window (pandas offset)
 min_baseline_obs = 3        # fewer prior observations -> no z-score
 growth_window_days = 15     # growth rate is scaled to this window
+min_span_days = 10          # growth compares with the latest scene at least this many days earlier
 max_gap_days = 45           # gaps longer than this give no growth rate
 
 # Tiers. A tier fires if EITHER rule passes its threshold.

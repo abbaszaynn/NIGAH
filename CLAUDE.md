@@ -47,13 +47,20 @@ nigah/
   src/lakes/lake_area.py      # S2 (+S1) lake-area time series
   src/lakes/anomaly.py        # anomaly + growth-rate alert rules
   src/lakes/backtest.py       # lead time vs known events
+  src/lakes/qa.py             # series quality checks; QA-failed lakes cannot alert
   src/landslide/features.py   # DEM, rainfall, NDVI, AlphaEarth stack
   src/landslide/train.py      # LightGBM + spatial CV + SHAP
   src/nlp/scrape.py           # RSS/news collection
   src/nlp/classify.py         # XLM-R triage + place extraction
   src/alerts/telegram.py
-  app/streamlit_app.py
-  app/theme.py                # dashboard design tokens + CSS
+  src/alerts/cap.py           # tier protocol + OASIS CAP 1.2 messages, EN/UR bulletins
+  src/alerts/check.py         # weekly refresh -> tiers -> alert log -> Telegram
+  app/streamlit_app.py        # entry: top nav, sidebar clock/status, auto-refresh
+  app/theme.py                # dark "control room" + light "daylight" tokens, CSS, components
+  app/data.py                 # loaders, lake status, freshness, health checks, Open-Meteo weather
+  app/maps.py, app/charts.py  # folium operational map, Altair charts
+  app/views/                  # Situation room, Lake monitor, Alerts & bulletins, Landslide risk,
+                              # Field reports, System health, Data & method
   outputs/                    # csv, png, reports (gitignored except final figures)
   .github/workflows/weekly.yml
 ```
@@ -64,7 +71,7 @@ Run every script from the repo root as a module, e.g. `python -m src.lakes.lake_
 
 ### Phase 0: setup (1-2 days)
 
-- [ ] Create GEE Cloud project, register for noncommercial use, `earthengine authenticate`
+- [x] Create GEE Cloud project, register for noncommercial use, `earthengine authenticate` (project vocal-oarlock-472219-q6, 2026-10-02)
 - [x] Create repo, venv, requirements.txt
 - [ ] Draw AOIs in GEE Code Editor: Shisper lake, Khurdopin/Shimshal, Badswat, KKH Hunza-Attabad segment. Export to config/aoi.geojson (set `"verified": true` per feature once checked)
 - [ ] Fill config/events.csv with dated events and a source link for each (set `verified` to true once sourced)
@@ -81,10 +88,15 @@ Done when: `python -c "import ee; ee.Initialize(project='...')"` works and AOIs 
 
 Known pitfalls: frozen or ice-covered lake reads as non-water in spring; turbid water can lower MNDWI; mountain shadow reads as water without the shadow mask.
 Done when: area series for Shisper looks physically sensible (lake fills, then drops at outbursts).
+Status 2026-10-02: first real Shisper run (2016-2026) FAILS this check. The series sits at ~0.092 km² in 37% of
+scenes = the flat (<10°) area inside the approximate box; MNDWI marks 12.6 of 13.4 km² as water in April (snow/ice).
+Next: redraw the AOI on the lake basin, add a snow/ice exclusion (e.g. NIR B8 < 0.15), and reconsider the slope
+mask (GLO30 predates the lake). Attabad 2026 looks plausible (1.6 -> 2.7 -> 1.9 km²).
 
 ### Phase 2: back-test (week 4)
 
-- [ ] Alert rules: robust z-score vs prior 60-day baseline, and 15-day growth rate
+- [x] Alert rules: robust z-score vs prior 60-day baseline, and 15-day growth rate
+      (growth compares with the latest scene >= 10 days earlier; never scaled up, which amplified noise)
 - [ ] Tune thresholds on 2019-2021 seasons only
 - [ ] Test on Shisper May 2022: did a warning fire before the outburst, and how many days ahead
 - [ ] Repeat for Badswat 2018

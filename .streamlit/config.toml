@@ -1,14 +1,31 @@
 [theme]
-base = "light"
+font = "IBM Plex Sans:https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&display=swap"
+codeFont = "IBM Plex Mono:https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&display=swap"
+baseRadius = "8px"
+
+# "Control room": default for an operations room or wall display
+[theme.dark]
+primaryColor = "#4FB3D9"
+backgroundColor = "#0B1117"
+secondaryBackgroundColor = "#172330"
+textColor = "#E6EDF2"
+borderColor = "#243341"
+linkColor = "#4FB3D9"
+
+[theme.dark.sidebar]
+backgroundColor = "#0E161D"
+
+# "Daylight": offices and phones outdoors
+[theme.light]
 primaryColor = "#1F6F8B"
 backgroundColor = "#F6F5F1"
 secondaryBackgroundColor = "#ECEAE3"
 textColor = "#14212B"
 borderColor = "#D9D6CC"
 linkColor = "#1F6F8B"
-baseRadius = "6px"
-font = "IBM Plex Sans:https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&display=swap"
-codeFont = "IBM Plex Mono:https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&display=swap"
+
+[theme.light.sidebar]
+backgroundColor = "#EFEDE7"
 
 [client]
 toolbarMode = "minimal"

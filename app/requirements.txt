@@ -4,3 +4,6 @@ pandas>=2.1
 numpy
 altair>=5.5
 pydeck>=0.9
+folium>=0.17
+streamlit-folium>=0.22
+requests

@@ -1,26 +1,36 @@
 # NIGAH dashboard design
 
-Mode: **Operate**. Users are NDMA/GBDMA officers at a desk in daylight and field staff on a phone.
-They need to see in seconds which lake is in what state, and why. The tool disappears into the task.
+Mode: **Operate**. Users: NDMA/GBDMA duty officers in an operations room (wall display or desk)
+and field staff on phones. They must see in seconds what is in force, where, and how fresh the evidence is.
 
-## World
-A field survey sheet: warm paper background, deep glacial ink, one water-blue accent.
-Light theme, picked for daylight offices and outdoor phone use.
-
-## Tokens (app/theme.py, .streamlit/config.toml)
-| Role | Value |
+## Structure (top navigation)
+| Page | Answers |
 |---|---|
-| Ink / secondary / tertiary text | `#14212B` / `#45535D` / `#5F6B73` |
-| Paper / surface / panel / rule | `#F6F5F1` / `#FFFFFF` / `#ECEAE3` / `#D9D6CC` |
-| Water accent (lake series, links, focus) | `#1F6F8B` |
-| Alert / Warning / Watch / Normal | `#B42318` / `#B54708` / `#8A5A00` / `#2F6B4F` on tinted pills |
-| Type | IBM Plex Sans for UI; IBM Plex Mono only for dates and measurements |
+| Situation room | What is in force now? Threat banner, KPI strip, operational map, alerts in force, data-quality blockers, weather outlook, lake status board, activity feed |
+| Lake monitor | Why is a lake in this state? Area vs 60-day normal range, z-score and growth rule panels, season comparison, observations, focused map |
+| Alerts & bulletins | What do we send? Warning matrix (tier → trigger → CAP fields → action, EN/UR), CAP 1.2 XML, history, channels |
+| Landslide risk | Where along the KKH? Susceptibility map, spatial-CV AUC, inputs, SHAP |
+| Field reports | What are people reporting? Triaged news on map and table |
+| System health | Is the warning chain working? MHEWS four pillars, pipeline freshness, configuration and data-quality checks |
+| Data & method | How is every number made? |
+
+## Standards followed
+- **OASIS CAP 1.2** for alert messages (status `Exercise` until the protocol is agreed with GBDMA/NDMA).
+- **UN Early Warnings for All / WMO MHEWS** four pillars as the System health frame.
+- Graded tiers (Watch / Warning / Alert) with a published trigger and suggested action per tier.
+- Degraded states are first-class: **QA failed**, **Data stale**, **Off season**, **No data**. A lake without
+  trustworthy data is never shown as Normal, and the banner says "absence of an alert does not mean safe".
+
+## World and tokens (app/theme.py, .streamlit/config.toml)
+- Dark "control room" (default) and light "daylight"; viewers switch in Settings → Theme.
+- Hazard colours are the only saturated colours. Every status has a label **and** a distinct icon shape
+  (visibility / warning triangle / crisis diamond …), so nothing relies on colour alone. Chart anomalies use
+  shape + colour + tooltip text.
+- IBM Plex Sans for UI, IBM Plex Mono for numbers and dates (tabular), Noto Nastaliq Urdu for Urdu.
 
 ## Rules
-- Hazard colours are the only saturated colours, and a tier is always shown with its text label (and the Alert pill has a distinct diamond marker), never colour alone.
-- Numbers use tabular figures and do not wrap.
 - Every chart and figure carries a caption with data source and date range.
-- Missing outputs render as an empty state that names the command that produces them. No sample or placeholder numbers, ever.
-- No emoji as icons; tab icons are Material Symbols.
-- Motion: none beyond Streamlit defaults. `prefers-reduced-motion` is respected.
-- Mobile (<640 px): the status board drops Valley, z-score and AOI columns and scrolls inside its own box; the page never scrolls sideways.
+- Missing outputs render as empty states naming the producing command. No sample numbers, ever.
+- Chart zoom needs Shift + scroll so page scrolling never gets trapped in a chart.
+- Auto-refresh reloads only when files in outputs/ change.
+- Phone: nav folds into the sidebar, no horizontal page scroll.

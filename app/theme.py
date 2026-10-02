@@ -24,6 +24,7 @@ MODES = {
             "no_data": ("#8796A3", "rgba(135,150,163,0.14)"),
             "stale": ("#C9A86A", "rgba(201,168,106,0.14)"),
             "qa_failed": ("#B9A3E3", "rgba(185,163,227,0.14)"),
+            "off_season": ("#8FB8D0", "rgba(143,184,208,0.13)"),
         },
         "basemap": "cartodbdark_matter",
     },
@@ -39,6 +40,7 @@ MODES = {
             "no_data": ("#5F6B73", "#ECEAE3"),
             "stale": ("#7A5B1E", "#F4ECDC"),
             "qa_failed": ("#5B4B8A", "#EEEAF6"),
+            "off_season": ("#3C6478", "#E5EEF3"),
         },
         "basemap": "cartodbpositron",
     },
@@ -46,15 +48,15 @@ MODES = {
 
 TIER_LABEL = {"alert": "Alert", "warning": "Warning", "watch": "Watch", "normal": "Normal",
               "no_baseline": "Too little history", "no_data": "No data", "stale": "Data stale",
-              "qa_failed": "QA failed"}
+              "qa_failed": "QA failed", "off_season": "Off season"}
 # Material Symbols glyph per tier: shape differs, so tier reads without colour
 TIER_ICON = {"alert": "crisis_alert", "warning": "warning", "watch": "visibility",
              "normal": "check_circle", "no_baseline": "hourglass_empty", "no_data": "do_not_disturb_on",
-             "stale": "schedule", "qa_failed": "report"}
+             "stale": "schedule", "qa_failed": "report", "off_season": "ac_unit"}
 TIER_ORDER = ["no_data", "no_baseline", "normal", "watch", "warning", "alert"]
 
 FONTS = ("https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500"
-         "&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap")
+         "&family=IBM+Plex+Sans:wght@400;500;600;700&family=Noto+Nastaliq+Urdu:wght@400;600&display=swap")
 ICONS = ("https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:"
          "opsz,wght,FILL,GRAD@20..24,400,0..1,0&display=block")
 
@@ -83,7 +85,7 @@ def css(mode: str) -> str:
 .stApp code, .stApp pre, .num {{ font-family: 'IBM Plex Mono', ui-monospace, monospace; }}
 .stApp {{ font-variant-numeric: tabular-nums; }}
 .num {{ white-space: nowrap; }}
-.block-container {{ padding-top: 1.4rem; padding-bottom: 3rem; max-width: 1600px; }}
+.block-container {{ padding-top: 4.6rem; padding-bottom: 3rem; max-width: 1600px; }}
 .stApp h1 {{ font-size: 1.45rem; font-weight: 700; letter-spacing: -0.01em; margin: 0 0 0.1rem; padding: 0; }}
 .stApp h3 {{ font-size: 0.98rem; font-weight: 600; margin: 0 0 0.5rem; padding: 0; color: var(--ink); }}
 .msr {{ font-family: 'Material Symbols Rounded'; font-weight: normal; font-style: normal;
@@ -189,7 +191,7 @@ def css(mode: str) -> str:
 .ur {{ font-family: 'Noto Nastaliq Urdu', 'Jameel Noori Nastaleeq', serif; direction: rtl; text-align: right; line-height: 2; }}
 
 /* streamlit chrome */
-header[data-testid="stHeader"] {{ background: transparent; }}
+header[data-testid="stHeader"] {{ background: var(--bg); border-bottom: 1px solid var(--rule); }}
 [data-testid="stSidebar"] {{ border-right: 1px solid var(--rule); }}
 [data-testid="stSidebarNav"] a span {{ font-size: 0.9rem; }}
 .stTabs [data-baseweb="tab-list"] {{ gap: 1.2rem; border-bottom: 1px solid var(--rule); }}
